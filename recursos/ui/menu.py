@@ -1,6 +1,6 @@
 import os 
 import sys
-
+from recursos.grafos.constructor import construir_grafo  
 
 def limpiar_pantalla():
     if os.name == "nt": 
@@ -24,7 +24,8 @@ def mostrar_menu():
 
 
 def opcion1():
-    print("cargar grafo o modelar ciudad")
+    construir_grafo()
+
 
 
     
@@ -57,10 +58,10 @@ def opcion9():
 
 
 def ejecutar_menu():
-    limpiar_pantalla()
-    mostrar_menu()
 
     while True:
+        limpiar_pantalla()
+        mostrar_menu()
         opcion = input("Seleccione una opción: ").strip()
         match opcion:
             case "1": 
@@ -86,3 +87,6 @@ def ejecutar_menu():
                 break
             case _: 
                 print("Opción no válida. Por favor, seleccione una opción válida.")
+            
+        print(input("Presione Enter para continuar..."))
+                
