@@ -1,0 +1,21 @@
+# cache de python
+__pycache__/
+*.py[cod]
+
+# entornos locales
+.venv/
+venv/
+env/
+
+# archivos generados por la ejecucion del programa
+cache/
+datos/output/
+datos/processed/
+
+# archivos temporales del sistema o editores
+.vscode/
+.idea/
+*.log
+*.tmp
+Thumbs.db
+.DS_Store
