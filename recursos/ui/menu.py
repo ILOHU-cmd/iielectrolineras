@@ -3,7 +3,7 @@
 
 import random
 
-from datos.data import ELECTROLINERAS, PUNTOS_REFERENCIA, VEHICULOS, formatear_nombre_vehiculo
+from datos.data import ELECTROLINERAS, PUNTOS_REFERENCIA, VEHICULOS
 from recursos.grafos.constructor import construir_grafo
 from recursos.grafos.visualizacion import generar_grafico_uso, generar_mapa
 from recursos.ml.modelo import entrenar_modelos, nombre_modelo, predecir_electrolinera
@@ -60,9 +60,6 @@ def mostrar_menu():
     print()
 
 
-def pausar():
-    # pausa para que el usuario pueda leer los resultados
-    input("presione enter para continuar...")
 
 
 def mostrar_electrolineras():
@@ -88,7 +85,6 @@ def mostrar_electrolineras():
 
 
 def mostrar_puntos_referencia():
-    # imprime los puntos fijos de recorridos
     print()
     print("puntos fijos de referencia")
 
@@ -107,18 +103,18 @@ def mostrar_puntos_referencia():
 
 
 def mostrar_vehiculos():
-    # imprime los dos vehiculos seleccionados
+
     print()
     print("vehiculos electricos")
-    claves = list(VEHICULOS.keys())
 
-    i = 0
-    while i < len(claves):
-        v = VEHICULOS[claves[i]]
+    for clave in VEHICULOS:
+
+        v = VEHICULOS[clave]
+
         print(
             v["id"],
             "-",
-            formatear_nombre_vehiculo(v["nombre"], v["gama"]),
+            print(v["nombre"], "-", v["gama"]),
             "| bateria:",
             v["bateria_kwh"],
             "kwh",
@@ -129,7 +125,6 @@ def mostrar_vehiculos():
             v["consumo_kwh_100km"],
             "kwh/100km",
         )
-        i = i + 1
 
 
 def mostrar_datos_base():
@@ -294,9 +289,7 @@ def ejecutar_menu():
             case "1":
                 print()
                 print("carga del grafo")
-                usar_cache = confirmar("desea usar el archivo guardado si existe")
-                grafo = construir_grafo(usar_cache)
-
+                grafo = construir_grafo()
             case "2":
                 mostrar_datos_base()
 
@@ -365,6 +358,4 @@ def ejecutar_menu():
 
             case _:
                 print("opcion no valida. escriba un numero de 0 a 9.")
-
-        print()
-        pausar()
+        print(input("Presione Enter para continuar..."))

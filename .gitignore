@@ -1,21 +1,16 @@
 # cache de python
 __pycache__/
-*.py[cod]
+*.pyc
 
-# entornos locales
-.venv/
-venv/
-env/
-
-# archivos generados por la ejecucion del programa
-cache/
+# carpetas de salida
 datos/output/
 datos/processed/
 
-# archivos temporales del sistema o editores
+# archivos grandes de osmnx
+datos/raw/*.graphml
+
+# vscode
 .vscode/
-.idea/
+
+# logs
 *.log
-*.tmp
-Thumbs.db
-.DS_Store

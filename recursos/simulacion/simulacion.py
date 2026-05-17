@@ -4,7 +4,7 @@
 import random
 from datetime import datetime, timedelta
 
-from datos.data import VEHICULOS, formatear_nombre_vehiculo
+from datos.data import VEHICULOS
 from recursos.grafos.algoritmo_grafos import dijkstra, electrolinera_mas_cercana
 from recursos.grafos.constructor import (
     obtener_nodos_electrolineras,
@@ -30,7 +30,7 @@ def crear_estado_vehiculos():
         estado = {
             "id": datos["id"],
             "nombre": datos["nombre"],
-            "nombre_mostrado": formatear_nombre_vehiculo(datos["nombre"], datos["gama"]),
+            "nombre_mostrado": f"{datos['nombre']} - {datos['gama']}",
             "gama": datos["gama"],
             "bateria_kwh": datos["bateria_kwh"],
             "autonomia_km": datos["autonomia_km"],

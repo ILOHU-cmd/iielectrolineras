@@ -3,7 +3,7 @@
 
 import os
 
-from datos.data import ELECTROLINERAS, PUNTOS_REFERENCIA, VEHICULOS, formatear_nombre_vehiculo
+from datos.data import ELECTROLINERAS, PUNTOS_REFERENCIA, VEHICULOS
 from recursos.utilidades.archivos import ruta_salida
 
 
@@ -139,7 +139,7 @@ def mostrar_vehiculos_en_mapa():
     i = 0
     while i < len(claves):
         vehiculo = VEHICULOS[claves[i]]
-        texto.append(formatear_nombre_vehiculo(vehiculo["nombre"], vehiculo["gama"]))
+        texto.append(f"{vehiculo['nombre']} - {vehiculo['gama']}")
         i = i + 1
 
     return ", ".join(texto)

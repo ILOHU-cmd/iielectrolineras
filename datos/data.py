@@ -1,153 +1,131 @@
-# datos base del proyecto de electrolineras
-# aqui se guardan las electrolineras, los puntos fijos y los vehiculos usados
+import osmnx as ox
 
 
-# lista de electrolineras solicitadas en el documento del proyecto
-ELECTROLINERAS = [
+G = ox.graph_from_place("Bucaramanga, Santander, Colombia",network_type="drive")
+
+
+
+lugares_busqueda = [
     {
         "id": "E1",
         "nombre": "Homecenter Bucaramanga",
-        "lat": 7.1155902,
-        "lon": -73.1211027,
-        "potencia_kw": 50,
-        "tipo": "electrolinera",
+        "potencia_kw": 50
     },
     {
         "id": "E2",
         "nombre": "Centro Comercial Quinta Etapa",
-        "lat": 7.1153472,
-        "lon": -73.1080126,
-        "potencia_kw": 22,
-        "tipo": "electrolinera",
+        "lat": 7.1050,
+        "lon": -73.1100,
+        "potencia_kw": 22
     },
     {
         "id": "E3",
         "nombre": "Centro Comercial Cacique",
-        "lat": 7.0992729,
-        "lon": -73.1072592,
-        "potencia_kw": 50,
-        "tipo": "electrolinera",
+        "potencia_kw": 50
     },
     {
         "id": "E4",
         "nombre": "Centro Comercial Canaveral",
-        "lat": 7.0708250,
-        "lon": -73.1069520,
-        "potencia_kw": 22,
-        "tipo": "electrolinera",
+        "lat": 7.0948,
+        "lon": -73.1098,
+        "potencia_kw": 22
     },
     {
         "id": "E5",
         "nombre": "Estacion Terpel Piedecuesta",
-        "lat": 6.9981311,
-        "lon": -73.0526692,
-        "potencia_kw": 50,
-        "tipo": "electrolinera",
+        "lat": 6.9900,
+        "lon": -73.0500,
+        "potencia_kw": 50
     },
     {
         "id": "E6",
-        "nombre": "Exito de La Rosita",
-        "lat": 7.1138712,
-        "lon": -73.1229578,
-        "potencia_kw": 22,
-        "tipo": "electrolinera",
+        "nombre": "La rosita exito",
+        "potencia_kw": 22
     },
     {
         "id": "E7",
         "nombre": "Centro Comercial La Florida",
-        "lat": 7.0705248,
-        "lon": -73.1054792,
-        "potencia_kw": 22,
-        "tipo": "electrolinera",
+        "potencia_kw": 22
     },
     {
         "id": "E8",
         "nombre": "Promotores del Oriente (via a Giron)",
-        "lat": 7.0856685,
-        "lon": -73.1645364,
-        "potencia_kw": 50,
-        "tipo": "electrolinera",
-    },
+        "potencia_kw": 50
+    }
 ]
 
 
-# lista de puntos fijos pedidos para los recorridos
-PUNTOS_REFERENCIA = [
-    {
-        "id": "P1",
-        "nombre": "UIS Campus Central",
-        "lat": 7.1409311,
-        "lon": -73.1198652,
-        "tipo": "referencia",
-    },
-    {
-        "id": "P2",
-        "nombre": "UIS Campus Florida",
-        "lat": 7.0612720,
-        "lon": -73.0895969,
-        "tipo": "referencia",
-    },
-    {
-        "id": "P3",
-        "nombre": "UIS Parque Tecnologico Guatiguara",
-        "lat": 6.9946516,
-        "lon": -73.0666837,
-        "tipo": "referencia",
-    },
-    {
-        "id": "P4",
-        "nombre": "UIS Campus Bucarica (Centro)",
-        "lat": 7.1193460,
-        "lon": -73.1235143,
-        "tipo": "referencia",
-    },
-    {
-        "id": "P5",
-        "nombre": "CENFER",
-        "lat": 7.0822971,
-        "lon": -73.1543598,
-        "tipo": "referencia",
-    },
-    {
-        "id": "P6",
-        "nombre": "UNAB",
-        "lat": 7.1168332,
-        "lon": -73.1055173,
-        "tipo": "referencia",
-    },
-    {
-        "id": "P7",
-        "nombre": "UTS",
-        "lat": 7.1051164,
-        "lon": -73.1235240,
-        "tipo": "referencia",
-    },
-    {
-        "id": "P8",
-        "nombre": "UPB",
-        "lat": 7.0377507,
-        "lon": -73.0722590,
-        "tipo": "referencia",
-    },
-    {
-        "id": "P9",
-        "nombre": "PTAR Rio Frio",
-        "lat": 7.0636700,
-        "lon": -73.1303400,
-        "tipo": "referencia",
-    },
-    {
-        "id": "P10",
-        "nombre": "Sede Recreacional Catay",
-        "lat": 6.9772129,
-        "lon": -73.0411162,
-        "tipo": "referencia",
-    },
+ELECTROLINERAS = []
+
+for lugar in lugares_busqueda:
+    try:
+        if "lat" in lugar and "lon" in lugar:
+            lat, lon = lugar["lat"], lugar["lon"]
+            metodo = "Manual"
+        else:
+            coords = ox.geocode(lugar["nombre"] + " Bucaramanga")
+            lat, lon = coords[0], coords[1]
+            metodo = "Automático"
+        
+        
+        ELECTROLINERAS.append({
+            "id": lugar["id"],
+            "nombre": lugar["nombre"],
+            "lat": lat,
+            "lon": lon,
+            "potencia_kw": lugar["potencia_kw"],
+            "tipo": "electrolinera"
+        })
+
+        print(f"{lugar['nombre']} agregado ({metodo})")
+
+    except Exception as e:
+
+        print(f"Error con {lugar['nombre']}: {e}")
+
+
+referencia = [
+    {"id": "P1",  "nombre": "Universidad Industrial de Santander"},
+    {"id": "P2",  "nombre": "UIS Sede Floridablanca",               "lat": 7.1372, "lon": -73.1261},
+    {"id": "P3",  "nombre": "UIS Parque Tecnologico Guatiguara", "lat": 6.9935, "lon": -73.0540},
+    {"id": "P4",  "nombre": "Sede Bucarica UIS ",    "lat": 7.1186, "lon": -73.1228},
+    {"id": "P5",  "nombre": "CENFER"},
+    {"id": "P6",  "nombre": "UNAB"},
+    {"id": "P7",  "nombre": "UTS"},
+    {"id": "P8",  "nombre": "Universidad Pontificia Bolivariana Seccional", "lat": 7.1500, "lon": -73.1280},
+    {"id": "P9",  "nombre": "PTAR Rio Frio", "lat": 7.1500, "lon": -73.1280},
+    {"id": "P10", "nombre": "Hacienda Catay, Piedecuesta, Santander", "lat": 7.0850, "lon": -73.1050}
 ]
 
+PUNTOS_REFERENCIA = []
 
-# vehiculos actualizados desde la carpeta iielectrolineras
-# se usan dos gamas: una alta y una baja
+for punto in referencia:
+    try:
+        if "lat" in punto and "lon" in punto:
+            lat, lon = punto["lat"], punto["lon"]
+            metodo = "Manual"
+        else:
+            coords = ox.geocode(punto["nombre"] + " Bucaramanga")
+            lat, lon = coords[0], coords[1]
+            metodo = "Automático"
+        
+        
+        PUNTOS_REFERENCIA.append({
+            "id": punto["id"],
+            "nombre": punto["nombre"],
+            "lat": lat,
+            "lon": lon,
+            "tipo": "referencia"
+        })
+
+        print(f"{punto['nombre']} agregado")
+
+    except Exception as e:
+
+        print(f"Error con {punto['nombre']}: {e}")
+
+
+
 VEHICULOS = {
     "tesla_modely": {
         "id": "V1",
@@ -168,17 +146,11 @@ VEHICULOS = {
 }
 
 
-def formatear_nombre_vehiculo(nombre, gama):
-    # esta funcion agrega la gama al nombre del vehiculo para mostrarlo en pantalla
-    nombre_limpio = str(nombre).strip()
-    gama_limpia = str(gama).strip().lower()
+print("\nElectrolineras:")
+print(ELECTROLINERAS)
 
-    if gama_limpia == "":
-        return nombre_limpio
+print("\nPuntos de referencia:")
+print(PUNTOS_REFERENCIA)
 
-    texto_gama = gama_limpia + " gama"
-
-    if texto_gama in nombre_limpio.lower():
-        return nombre_limpio
-    else:
-        return nombre_limpio + " (" + texto_gama + ")"
+print("\nVehiculos:")
+print(VEHICULOS)
