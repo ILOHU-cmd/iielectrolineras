@@ -147,7 +147,7 @@ VEHICULOS = {
 
 
 print("\nElectrolineras:")
-print(ELECTROLINERAS)
+print(ELECTROLINERAS[1])
 
 print("\nPuntos de referencia:")
 print(PUNTOS_REFERENCIA)

@@ -5,7 +5,7 @@ import random
 
 from datos.data import ELECTROLINERAS, PUNTOS_REFERENCIA, VEHICULOS
 from recursos.grafos.constructor import construir_grafo
-from recursos.grafos.visualizacion import generar_grafico_uso, generar_mapa
+from recursos.grafos.visualizacion import generar_grafico_dispersion, generar_mapa
 from recursos.ml.modelo import entrenar_modelos, nombre_modelo, predecir_electrolinera
 from recursos.simulacion.simulacion import ejecutar_simulacion, imprimir_resumen
 from recursos.utilidades.archivos import (
@@ -64,7 +64,6 @@ def mostrar_menu():
 
 def mostrar_electrolineras():
     # imprime las electrolineras registradas
-    print()
     print("electrolineras")
 
     i = 0
@@ -81,7 +80,7 @@ def mostrar_electrolineras():
             round(e["lat"], 4),
             round(e["lon"], 4),
         )
-        i = i + 1
+        i += 1
 
 
 def mostrar_puntos_referencia():
@@ -99,7 +98,7 @@ def mostrar_puntos_referencia():
             round(p["lat"], 4),
             round(p["lon"], 4),
         )
-        i = i + 1
+        i += 1
 
 
 def mostrar_vehiculos():
@@ -114,7 +113,7 @@ def mostrar_vehiculos():
         print(
             v["id"],
             "-",
-            print(v["nombre"], "-", v["gama"]),
+            v["nombre"], "-", v["gama"],
             "| bateria:",
             v["bateria_kwh"],
             "kwh",
@@ -299,7 +298,7 @@ def ejecutar_menu():
                 else:
                     print()
                     print("simulacion de recorridos")
-                    cantidad = leer_entero("cantidad de recorridos (1-500): ", 1, 500)
+                    cantidad = leer_entero("cantidad de recorridos (1-20000): ", 1, 20000)
                     semilla = obtener_semilla(cantidad)
                     estadisticas = ejecutar_simulacion(grafo, cantidad, semilla)
                     imprimir_resumen(estadisticas)
@@ -310,8 +309,8 @@ def ejecutar_menu():
                 else:
                     imprimir_resumen(estadisticas)
 
-                    if confirmar("desea generar grafico de uso de electrolineras"):
-                        ruta = generar_grafico_uso(estadisticas)
+                    if confirmar("desea generar grafico de dispersion"):
+                        ruta = generar_grafico_dispersion(estadisticas)  # ← NUEVO
                         preguntar_abrir(ruta)
 
             case "5":
